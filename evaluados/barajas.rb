@@ -20,7 +20,7 @@ class Baraja
   def sacar
     @cartas.shift
   end
-  def repartir
+  def repartirMano
     5.times do |ind|
       @manoObj.push(@cartas.shift)
     end
@@ -35,7 +35,6 @@ def main
   baraja1 = []
   jugador1 = []
   
-
   baraja1 = Baraja.new
   baraja1.barajar
 
@@ -52,14 +51,16 @@ def main
   #   print "#{jugador1[0][idx].numero} de #{jugador1[0][idx].pinta} \n"
   # end
 
-  jugador1 = baraja1.repartir
+  jugador1 = baraja1.repartirMano
+  puts "cartas repartidas al jugador1"
   jugador1.count.times do |idx| #jugador[0] nos situa en el array de un elemento y con times recorremos los elementos de array interno
      print "#{jugador1[idx].numero} de #{jugador1[idx].pinta} \n"
    end
 
   #sacar una carta
   cartaRobada = baraja1.sacar #cartaRobada adquiere la clase carta
+  puts "prueba del metodo sacar" 
   print "saco la carta #{cartaRobada.numero} de #{cartaRobada.pinta}"
 end
 
-main() # activar en caso de querer probar el codigo automaticamente
+#main() # activar en caso de querer probar el codigo automaticamente
