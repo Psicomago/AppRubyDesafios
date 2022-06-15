@@ -1,0 +1,112 @@
+Desafio Evaluado Cuentas Bancarias ---Introduccion a objetos, Ruby---
+
+En este desafío se presentan 2 ejercios, cuyo objetivo es crear clases a partir de diagramas UML.
+
+Para probar estos codigo se debe ingresar al irb y requerir el archivo cuentas_bancarias esto se hace a traves de:
+
+require relative 'cuentas_bancarias.rb'
+
+el archivo cuentas_bancarias lo que hace es requerir las clases CuentaBancaria y usuarios ademas, de requerir el archivo 
+tester_cuentas.rb. el cual se hizo para probar las clases de forma más automática.  
+
+
+
+
+---Primer Ejercicio---
+
+1.- En este desafio se pide crear las clases Usuario y CuentaBancaria.
+
+    Esto lo hacemos de la siguiente manera:
+
+    class CuentaBancaria
+    end 
+
+    class Usuario
+    end 
+
+2.- Crear el constructor de la clase CuentaBancaria que reciba el nombre del banco, el
+    número de cuenta y el saldo (el saldo por defecto será cero). 
+
+    El siguiente codigo permite crear el constructor de la clase CuentaBancaria. Más adelante se agregarán,
+    las attr, excepciones y validaciones.
+
+    def initialize(banco,cuenta,saldo=0)
+        @banco = banco
+        @cuenta = cuenta
+        @saldo = saldo
+    end
+
+3.- Crear el método transferir en la clase Cuenta que reciba un monto y otra cuenta. Este
+    método restará del saldo actual el monto y aumentará el saldo de la otra cuenta en el mismo
+    monto. 
+
+    En este punto se incluyen algunas validaciones, que son importantes para que el metodo transferir se ejecute
+    sin problema.
+
+    #--- En la linea siguiente, se crea el metodo transferir, al cual se le pasa una cuenta de la clase CuentaBancaria 
+        y un monto.
+
+    def transferir(cuenta2,monto) 
+    
+    #------en el siguiente bloque de codigo, se validan 3 excepciones:
+        a) primero, se valida si el atributo cuenta pertenece a la clase CuentaBancaria, y sino es así se levanta una excepción
+            de tipo ArgumentError. 
+        b) Segundo, se valida si el atributo monto es de la clase integer. De no serlo se levante la excepción de tipo
+            ArgumentError
+        c) tercero se valida si el atributo monto es menor que cero. en caso de serlo levanta una excepción de tipo 
+            RangeError indicando que no se puede ingresar un numero negativo.
+
+      raise ArgumentError,'El atributo cuenta debe ser de la clase CuentaBancaria' if cuenta2.class != CuentaBancaria # valida si contiene algun carácter que no sea un número
+      raise ArgumentError,'El atributo monto debe ser de la clase integer' if monto.class != Integer
+      raise RangeError, 'El atributo monto no puede ser negativo ' if monto < 0
+    #---------------
+
+    Luego de validar las excepciones, se valida si los atributos tienen las cantidades suficientes para realizar la transacción.
+    Solo en caso de que el saldo de la cuenta que recibe los datos se mayor que el monto a transferir, se realiza la transacción.
+      return "Saldo insuficiente" if @saldo < monto
+      return "El monto debe ser mayor que cero" if monto == 0
+      if @saldo >= monto
+        @saldo -= monto
+        cuenta2.saldo += monto
+        return "Transferencia aprobada" #return print "saldo cuenta1 #{@saldo}  #{cuenta2.saldo}" 
+      end
+    end
+
+    Para poder acceder a los atributos que se utilizan en la ejecución de los metodos de instancia, es necesario agregar los attr.
+    y eso se hace de la siguiente manera.
+
+    Cuando se crea la instancia, agregamos las siguientes 2 lineas, antes del metodo constructor:
+
+    classs CuentaBancaria
+    attr_reader :banco, :cuenta
+    attr_accessor :saldo
+
+    Lo que permite attr_reader es, acceder en modo lectura a los atributos :banco y :cuenta
+    y attr_accessor permite acceder al atributo :saldo, tanto en modo lectura como en modo escritura. 
+    Gracias a eso podemos modificar su contenido. 
+
+    Finalmente para completar la clase CuentaBancaria, se validan las excepciones, en el metodo constructor.
+    Primero se valida, que los atributos banco y cuenta pertenezcan a la clase String. Además se evalua, que en 
+    el atributo cuenta, que a pesar de ser un string se ingresen solo numeros. Tambien se valida que el atributo saldo 
+    pertenezca a la clase integer. En todos estos casos se levanta una excepción de tipo ArgumentError.
+    Tambien en caso de que el atributo cuenta, tenga un largo inferior o superior a 8 digitos y en le atributo saldo se ingrese
+    un numero negativo, se levanta la excepcion de tipo RangeError.  
+
+    def initialize(banco,cuenta,saldo=0)
+    
+    #***validadación de excepciones
+    raise ArgumentError, 'El atributo banco debe ser de la clase string' if banco.class != String
+    raise ArgumentError, 'El atributo cuenta debe ser de la clase string' if cuenta.class != String
+    raise ArgumentError,'ingrese solo digitos en el atributo cuenta' if cuenta.match(/\D/).nil? == false # valida si contiene algun carácter que no sea un número
+    raise ArgumentError,'El atributo saldo debe ser de la clase integer' if saldo.class != Integer
+    raise RangeError, 'El largo del atributo cuenta debe se de 8 digitos' if cuenta.length != 8
+    raise RangeError, 'El atributo saldo no puede ser negativo ' if saldo < 0
+
+
+    @banco = banco
+    @cuenta = cuenta
+    @saldo = saldo
+  end
+
+
+

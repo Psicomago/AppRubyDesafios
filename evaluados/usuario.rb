@@ -3,17 +3,15 @@ class Usuario
   attr_accessor :cuentas 
   def initialize (usuario, cuentas)
     raise ArgumentError, 'El atributo usuario debe ser de la clase string' if usuario.class != String
-    raise ArgumentError, 'El atributo cuenta debe ser de la clase array' if cuentas.class != Array && cuentas.class != CuentaBancaria
+    raise ArgumentError, 'El atributo cuenta debe ser de la clase array o de la clase CuentaBancaria' if cuentas.class != Array && cuentas.class != CuentaBancaria
     cuentaArray = Array.new
     #cuentaArray = cuentas
     if cuentas.class == Array
       cuentas.each do |cuentaIngresada|
         cuentaArray.push(cuentaIngresada)
-        cuentaIngresada.usuarioCuenta = usuario #asigna el nombre de usuario en la cuenta para que quede asociada
       end
     elsif cuentas.class == CuentaBancaria
         cuentaArray.push(cuentas)
-        cuentas.usuarioCuenta = usuario #asigna el nombre de usuario en cada cuenta que contegna el array
     end
     @usuario = usuario
     @cuentas = cuentaArray
@@ -37,7 +35,6 @@ class Usuario
       return "La cuenta ya existe"
     else
       @cuentas.push(cuenta3)
-      cuenta3.usuarioCuenta = @usuario
       return "La cuenta fue agregada con exito"
     end
   end 

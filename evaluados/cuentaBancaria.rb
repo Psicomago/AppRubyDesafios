@@ -1,6 +1,6 @@
 class CuentaBancaria
   attr_reader :banco, :cuenta
-  attr_accessor :saldo, :usuarioCuenta
+  attr_accessor :saldo
   def initialize(banco,cuenta,saldo=0)
     #***validadación de excepciones
     raise ArgumentError, 'El atributo banco debe ser de la clase string' if banco.class != String
@@ -12,7 +12,7 @@ class CuentaBancaria
     @banco = banco
     @cuenta = cuenta
     @saldo = saldo
-    @usuarioCuenta = ""
+  end
 
     #3- Crear el método transferir en la clase Cuenta que reciba un monto y otra cuenta. Este
     # # método restará del saldo actual el monto y aumentará el saldo de la otra cuenta en el mismo monto. (1 Punto  
@@ -28,5 +28,4 @@ class CuentaBancaria
         return "Transferencia aprobada" #return print "saldo cuenta1 #{@saldo}  #{cuenta2.saldo}" 
       end
     end
-  end
 end

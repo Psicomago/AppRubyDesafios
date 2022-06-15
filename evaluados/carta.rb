@@ -5,4 +5,11 @@ class Carta
     @numero = numero
     @pinta = pinta.upcase
   end
+  
+  def nombreCarta
+    return "Corazón" if @pinta == "C"
+    return "Diamante" if @pinta == "D"
+    return "Espada" if @pinta == "E"
+    return "Trebol" if @pinta == "T"
+  end
 end
