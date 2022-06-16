@@ -1,33 +1,49 @@
 require_relative 'carta.rb'
+require 'byebug'
 class Baraja
-  attr_reader :cartas
-  attr_writer :cartas
+  attr_reader :cartas, :totalCartas
+  attr_writer :cartas, :totalCartas
   def initialize(cartas=[],manoObj=[])
     arrayPinta = ["C", "D", "E", "T"]
+    @totalCartas = 0 #contador de cartas
     arrayPinta.each do |pinta|
     @cartas = cartas
     @manoObj = manoObj
       for idx in (1..(13))
         @cartas.push(Carta.new(idx, pinta))
+        @totalCartas += 1
         # print "#{@cartas}"
       end
     end 
   end
+
   def barajar
     @cartas.shuffle!
-    # print "#{@cartas}"
   end
   def sacar
-    @cartas.shift
+    if @totalCartas >= 1
+      @totalCartas -= 1
+      @cartas.shift
+    else 
+      puts "No quedan cartas en el mazo"
+    end
+
   end
   def repartirMano
-    5.times do |ind|
-      @manoObj.push(@cartas.shift)
+    if @totalCartas >= 5
+      5.times do |ind|
+        @totalCartas -= 1
+        @manoObj.push(@cartas.shift)
+      end
+      return @manoObj
+    else
+      puts "Quedan menos de 5 cartas, no se puede repartir una mano"
     end
-    return @manoObj
   end
+
   def ordenar 
     initialize()
+    return "baraja ordenada"
   end
 end
 
@@ -54,13 +70,14 @@ def main
   jugador1 = baraja1.repartirMano
   puts "cartas repartidas al jugador1"
   jugador1.count.times do |idx| #jugador[0] nos situa en el array de un elemento y con times recorremos los elementos de array interno
-     print "#{jugador1[idx].numero} de #{jugador1[idx].pinta} \n"
+     print "#{jugador1[idx].numero} de #{jugador1[idx].nombreCarta} \n"
+     #print "cartas en el mazo #{baraja1.totalCartas} \n"
    end
-
   #sacar una carta
   cartaRobada = baraja1.sacar #cartaRobada adquiere la clase carta
   puts "prueba del metodo sacar" 
-  print "saco la carta #{cartaRobada.numero} de #{cartaRobada.pinta}"
+  print "saco la carta #{cartaRobada.numero} de #{cartaRobada.nombreCarta}\n"
+  #print "cartas en el mazo #{baraja1.totalCartas} \n"
 end
 
 #main() # activar en caso de querer probar el codigo automaticamente

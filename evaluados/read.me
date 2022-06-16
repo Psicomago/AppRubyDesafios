@@ -1,18 +1,180 @@
-Desafio Evaluado Cuentas Bancarias ---Introduccion a objetos, Ruby---
+----DESAFÍO EVALUADO CUENTAS BANCARIAS---Introduccion a objetos, Ruby---
 
-En este desafío se presentan 2 ejercios, cuyo objetivo es crear clases a partir de diagramas UML.
+En este desafío se presentan 2 ejercicios, cuyo objetivo es crear clases a partir de diagramas UML.
 
-Para probar estos codigo se debe ingresar al irb y requerir el archivo cuentas_bancarias esto se hace a traves de:
+El primer ejercicio, solicita crear las clases CuentaBancaria y Usuario, mienrtras que el segundo ejercicio pide 
+crear las clases Barajas y Carta.
 
-require relative 'cuentas_bancarias.rb'
-
-el archivo cuentas_bancarias lo que hace es requerir las clases CuentaBancaria y usuarios ademas, de requerir el archivo 
-tester_cuentas.rb. el cual se hizo para probar las clases de forma más automática.  
-
+En este README, primero se explicará, la forma de probar las clases del ejercicio 1 y luego como probar las clases del ejerciccio 2.
+Posteriormente, se revisará la caja negra de cada una de las clases creadas. 
 
 
+---EJERCICIO 1 CUENTAS BANCARIAS---
 
----Primer Ejercicio---
+Crear las clases Usuario y CuentaBancaria. 
+Crear el constructor de la clase CuentaBancaria que reciba el nombre del banco, el
+número de cuenta y el saldo (el saldo por defecto será cero). 
+Crear el método transferir en la clase Cuenta que reciba un monto y otra cuenta. Este
+método restará del saldo actual el monto y aumentará el saldo de la otra cuenta en el mismo
+monto. 
+Probar creando dos cuentas cada una con un saldo de 5000 y transferir el total de una
+cuenta a la otra.
+Crear el constructor de Usuario que reciba el nombre del usuario y un arreglo con al
+menos 1 cuenta bancaria. (
+
+
+Para probar codigo, que da solución a estos requerimientos, se debe ingresar al irb y requerir 
+el archivo cuentas_bancarias esto se hace a traves de:
+
+require_relative 'cuentas_bancarias.rb'
+
+el archivo cuentas_bancarias lo que hace es requerir 2 archivos, en los cuales se cren las clases CuentaBancaria y usuarios.
+Ademas, de requerir el archivo tester_cuentas.rb. el cual se hizo para probar las clases de forma más automática.  
+
+#archivo Cuentas_Bancarias ccontiene. 
+    require_relative 'cuentaBancaria.rb'
+    require_relative 'usuario.rb'
+    require_relative 'tester_cuentas.rb'
+
+una vez cargado el archivo. se puede probar de forma automática las clases escribiendo en el irb main.
+
+para probar las clases manualmente se debe instanciar cada una de las clases.  
+
+para crear una cuenta nueva: en irb:  cuenta1 = CuentaBancaria.new('nombreBanco','numeroCuenta',saldo)
+
+---El atributo nombreBanco debe pertenecer a la clase String.
+---El atributo numeroCuenta debe pertenecer a la clase String. No obstante, debe ingresar solo digitos y su tamaño debe ser de 8 digitos
+---El atributo saldo debe pertenecer a la clase Integer.
+
+Para crear un usuario nuevo se puede hacer de 2 formas.
+    a) crear al usuario con una cuenta
+
+    en irb:    cliente1 = Usuario.new('nombreCliente',cuenta1)
+
+---El atributo nombreCliente debe pertenecer a la clase String
+---El atributo cuenta1 debe pertenecer a la clase CuentaBancaria
+
+    b) crear al usuario con un arreglo de cuentas 
+
+    en irb:
+        cuentaArray = []
+        cuentaArray.push(cuenta1,cuenta2)
+        cliente1 = Usuario.new('nombreCliente',cuentaArray)
+
+
+---El atributo nombreCliente debe ser de la clase String
+---El atributo cuentaArray es de la clase array. Pero sus elementos deben ser de la clase CuentaBancaria.
+
+Mientras se instancian las cuentas y los usuarios, se pueden probar las excepciones y validadciones.
+Una vez instanciadas las cuentas y los usuarios se pueden probar los metodos de instancia.
+
+-----METODO transferir en CuentaBancaria
+
+Lo que hace este metodo, es validar si la cuenta1 tiene el saldo suficiente para transferir a cuenta2. Y si es así,
+transfiere la cantidad indicada en el atributo monto. Es decir, al saldo de cuenta1 le resta el monto y al saldo de 
+cuenta2, le suma el monto.
+    
+    en irb:
+    cuenta1.transferir(cuenta2,monto)
+
+---El atributo cuenta2 es de la clase CuentaBancaria
+---El atributo monto es de la clase Integer
+
+
+
+-----METODO sumarSaldos en usuarios
+
+Este metodo de instancia, suma los saldos de todas las cuentas asociadas a un cliente(usuario)
+    
+    en irb:
+    cliente1.SumarSaldos
+
+
+-----METODO agregar_cuenta
+Si bien este metodo no fue requerido, se creó para poder agregar cuentas y poder probar el metodo sumarSaldos.
+Lo primero que hace, es validar si la cuenta existe y sino existe la crea. Luego, toma los saldos de cada cuenta 
+asociada a un cliente y los suma. 
+
+    en irb:
+    cliente.agregar_cuenta
+
+
+---EJERCICIO 2  BARAJA DE CARTAS---
+
+Crear la clase carta con los atributos numero y pinta.
+Agregar los getters y setters a ambos atributos.
+Crear el constructor de la clase carta que le permita recibir un número del 1 al 13 y la
+pinta que está indicada por una sola letra. Puede ser Corazón: 'C', Diamante: 'D', Espada: 'E' o Trébol: 'T'.
+Utilizar el ejercicio Carta creado en la primera parte y dejarlo en el archivo carta.rb.
+Crear la clase baraja en el archivo barajas.rb con el atributo cartas, el cual será un arreglo.
+Al crear una baraja (constructor) se deben generar todas las combinaciones de
+números y pinta y guardarse dentro del arreglo cartas.
+Crear el método barajar que debe desordenar el arreglo de cartas Tip: Utilizar .shuffle.
+Crear el método sacar que permita retirar la primera carta de la baraja Tip: Utilizar .pop.
+Crear el método repartir mano que devolverá un arreglo con las primeras 5 cartas de la baraja.
+
+La solucion a estos requerimientos se encuentran en el archivo barajas.rb
+Tal y como se hizo en el ejercicio 1, para hacer las pruebas correspondientes, se debe ingresar al irb.
+
+en irb: require_relative 'barajas'
+
+una vez cargado el archivo, se pueden probar las clases de forma automatica o de forma manual.
+
+---Para probar de forma automática: 
+
+        en irb: main
+
+---Para probar de forma manual:
+
+La clase Carta, se puede instanciar creando cartas individuales a gusto del usuario. No obstante, serian cartas huachas,
+que no pertenecen a ninguna baraja.
+
+    en irb: carta1 = Carta.new(1,"C")
+
+    de esta forma se estaría creando el AS de corazón 
+
+obviamente, se hacen las validaciones correspondientes. Por lo cual, el primer atributo que corresponde al numero de carta
+debe ser entre 1 y 13 y el segundo atributo, que corresponde a la pinta debe ser una letra y la correspondencia es la siguiente:
+
+    "C" = Corazón
+    "D" = Diamante
+    "E" = Espada o Pica para los chilenos
+    "T" = Trebol 
+
+Entonces, como se dijo anteriormente, crear las cartas de esta forma, lleva a que sean cartas que no pertenecen a ninguna baraja.
+Por tanto, para poder crear un mazo de cartas hay que instanciar la clase Barajas.
+
+    en irb: barajaNueva1 = Baraja.new
+
+Al instanciar la clase baraja, se crea automaticamente un mazo de cartas con todos los numeros y pintas correspondiente.
+
+Además, ofrece la posibilidad de barajar el mazo, sacar una carta y reordenarlo (esto no estaba en lo requerimientos, pero me pareció necesario).
+
+    para barajar el mazo.  en irb: barajaNueva1.barajar
+
+una vez barajado el mazo se puede rapartir manos de 5 cartas. 
+
+    en irb: barajaNueva1.repartirMano
+
+para sacar una carta del mazo.
+
+    en irb: barajaNueva1.sacar
+
+
+la cantidad de veces que se puede ejecutar el metodo repartirMano y el metodo sacar esta limitado por la cantidad de cartas que quedan
+en la baraja. una vez que se acaban las cartas. es necesario reordernar la baraja para poder repartir y/o sacar cartas.
+Por esto se creo el metodo ordenar.
+
+    en irb: baraja1.ordenar
+
+
+
+---REVISANDO LA CAJA NEGRA---
+
+Para poder saber como hace lo que hace cada clase y cada metodo es necesario entrar en la caja negra. 
+Con una explicación breve y sencilla vamos a mostrarla por dentro.
+
+EXPLICACIÓN  ---Primer Ejercicio---
 
 1.- En este desafio se pide crear las clases Usuario y CuentaBancaria.
 
@@ -35,6 +197,8 @@ tester_cuentas.rb. el cual se hizo para probar las clases de forma más automát
         @cuenta = cuenta
         @saldo = saldo
     end
+
+    nota: saldo=0 indica que si no se pasa este parametro asumira como valor inicial el valor 0
 
 3.- Crear el método transferir en la clase Cuenta que reciba un monto y otra cuenta. Este
     método restará del saldo actual el monto y aumentará el saldo de la otra cuenta en el mismo
@@ -62,14 +226,15 @@ tester_cuentas.rb. el cual se hizo para probar las clases de forma más automát
     #---------------
 
     Luego de validar las excepciones, se valida si los atributos tienen las cantidades suficientes para realizar la transacción.
-    Solo en caso de que el saldo de la cuenta que recibe los datos se mayor que el monto a transferir, se realiza la transacción.
-      return "Saldo insuficiente" if @saldo < monto
-      return "El monto debe ser mayor que cero" if monto == 0
+    Solo en caso de que el saldo de la cuenta que recibe los datos sea mayor que el monto a transferir, se realiza la transferencia.
+  
+    return "Saldo insuficiente" if @saldo < monto
+    return "El monto debe ser mayor que cero" if monto == 0
       if @saldo >= monto
-        @saldo -= monto
-        cuenta2.saldo += monto
-        return "Transferencia aprobada" #return print "saldo cuenta1 #{@saldo}  #{cuenta2.saldo}" 
-      end
+      @saldo -= monto
+      cuenta2.saldo += monto
+      return "Transferencia aprobada"    # return print "saldo cuenta1 #{@saldo}  #{cuenta2.saldo}" 
+    end
     end
 
     Para poder acceder a los atributos que se utilizan en la ejecución de los metodos de instancia, es necesario agregar los attr.
@@ -92,7 +257,7 @@ tester_cuentas.rb. el cual se hizo para probar las clases de forma más automát
     Tambien en caso de que el atributo cuenta, tenga un largo inferior o superior a 8 digitos y en le atributo saldo se ingrese
     un numero negativo, se levanta la excepcion de tipo RangeError.  
 
-    def initialize(banco,cuenta,saldo=0)
+def initialize(banco,cuenta,saldo=0)
     
     #***validadación de excepciones
     raise ArgumentError, 'El atributo banco debe ser de la clase string' if banco.class != String
@@ -108,5 +273,59 @@ tester_cuentas.rb. el cual se hizo para probar las clases de forma más automát
     @saldo = saldo
   end
 
+Como se puede ver, una vez validada las excepciones, el metodo constructor asigna los atributos ingresados a las variables de instancia.
+
+La Clase CuentaBancaria está lista para ser instanciada.
 
 
+---LA CLASE USUARIO---
+
+Anteriormente se había creado la clase Usuario. Por tanto, se revisará el metodo constructor y los metodos sumar saldo y agregar cuenta
+
+Antes de revisar el metodo constructor, revisemos los metodos attr.
+
+Para poder acceder a las variables de instancia se establece de que modo se accederá a ellas.
+
+    attr_reader :usuario   #modo lectura
+    attr_accessor :cuentas  #modo lectura y escritura
+
+En el metodo costructor validamos las excepciones :
+
+    def initialize (usuario, cuentas)
+    raise ArgumentError, 'El atributo usuario debe ser de la clase string' if usuario.class != String
+    raise ArgumentError, 'El atributo cuenta debe ser de la clase array o de la clase CuentaBancaria' if cuentas.class != Array && cuentas.class != CuentaBancaria
+
+se crea una variable de la clase Array, en la cual se almacenarán las cuentas asociadas al usuario. 
+
+    cuentaArray = Array.new
+
+Notese que es importante recordar que el tipo de cuenta ingresado, puede ser de la clase CuentaBancaria o de la Clase Array  es por esto que una de las 
+excpeciones validadas es precisamennte la clase a la cual pertenece el atributo cuentas.
+
+Pero aquí hay una consideración importante. Si el atributo cuentas pertenece a la clase Array eventualmente dentro del arreglo podria cometerse el 
+error de ingresar un String con el numero de cuenta. El cual no será validado por la excepción dado que está dentro del arreglo, es decir habria pasado camuflado.
+
+        ejemplos de ingreso del atributo cuentas
+
+       caso 1 cuentaArray1 = [cuenta1, cuenta2] 
+       caso 2 cuentaArray2 = [cuenta3, "12345678"]
+       
+       Cliente1 = Usuario.new('carlos',cuenta4)
+       Cliente2 = Usuario.new('Marta',cuentaArray1)
+       Cliente3 = Usuario.new('Alexis',cuentaArray2)
+
+Supongamos que las cuentas 1, 2, 3 y 4 ya fueron instanciadas. 
+
+Al analizar los 3 casos, todos pasarían el primer cortafuegos.
+
+
+    caso 1 cuenta4 pertenece a la clase CuentaBancaria por tanto pasa la excepción
+
+    caso 2 cuentaArray1 contiene Cuenta1 y Cuenta2 ambas pertenecen a la clase CuentaBancaria pero cuentaArray es
+        de la clase Array por tanto pasa la excepción si problema.
+
+    caso3 cuentaArray2 es de la clase Array, por tanto sortea la primera excepción sin problemas. aunque las cuenta con el numero ingresado en el string
+        no haya sido creada. 
+        Para solucionar este problema se debe validar que los elementos del atributo Cuentas, cuando esten ingresando un Array,
+        pertenezcan todos a la clase CuentaBancaria. sino es así, significa que la cuenta no existe.
+    

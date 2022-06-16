@@ -1,3 +1,4 @@
+require 'byebug'
 class Usuario
   attr_reader :usuario
   attr_accessor :cuentas 
@@ -8,7 +9,11 @@ class Usuario
     #cuentaArray = cuentas
     if cuentas.class == Array
       cuentas.each do |cuentaIngresada|
+       if cuentaIngresada.class != CuentaBancaria
+        raise ArgumentError, 'El atributo cuenta debe ser de la clase array o de la clase CuentaBancaria'
+       else
         cuentaArray.push(cuentaIngresada)
+       end
       end
     elsif cuentas.class == CuentaBancaria
         cuentaArray.push(cuentas)
