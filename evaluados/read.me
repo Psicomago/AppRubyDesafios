@@ -324,8 +324,170 @@ Al analizar los 3 casos, todos pasarían el primer cortafuegos.
     caso 2 cuentaArray1 contiene Cuenta1 y Cuenta2 ambas pertenecen a la clase CuentaBancaria pero cuentaArray es
         de la clase Array por tanto pasa la excepción si problema.
 
-    caso3 cuentaArray2 es de la clase Array, por tanto sortea la primera excepción sin problemas. aunque las cuenta con el numero ingresado en el string
+    caso3 cuentaArray2 es de la clase Array, por tanto sortea la primera excepción sin problemas. aunque la cuenta con el numero ingresado en el string
         no haya sido creada. 
-        Para solucionar este problema se debe validar que los elementos del atributo Cuentas, cuando esten ingresando un Array,
+        Para solucionar este problema se debe validar que los elementos del atributo Cuentas, cuando se ingrese un Array con varias cuentas,
         pertenezcan todos a la clase CuentaBancaria. sino es así, significa que la cuenta no existe.
     
+            if cuentas.class == Array
+                cuentas.each do |cuentaIngresada|
+                if cuentaIngresada.class != CuentaBancaria
+                    raise ArgumentError, 'El atributo cuenta debe ser de la clase array o de la clase CuentaBancaria'
+                else
+                    cuentaArray.push(cuentaIngresada)
+
+                end
+            elsif cuentas.class == CuentaBancaria
+                cuentaArray.push(cuentas)
+            end
+    
+    En estas lineas de codigo, en el caso que se haya ingresado un arreglo, se recorre  validando que cada elemento pertenezca a la clase CuentaBancaria.
+    En caso de que no pertenezca envia un excepción.
+    pero si pertenece, traspasa la cuenta a la variable cuentaArray.
+    Y en el caso de que se haya ingresado pushea la cuenta en cuentaArray.
+
+    posterior a eso asignas los atributos ingresado a las variables de instancia. 
+
+    @usuario = usuario
+    @cuentas = cuentaArray
+
+---EL METODO sumarSaldos---
+
+Primero, que todo, se inicializa la variable saldoTotal en 0 y luego se trabaja sobre la variable de instancia @cuentas
+La variable @cuentas, es de la clase Array dado que el atributo cuenta que se ingresa, una vez validado, se asigna al arreglo arrayCuenta.
+El cual posteriormente se asigna a traves del signo = a la variable de instancia @cuentas la cual adquiere la clase Array
+
+    saldoTotal = 0
+    @cuentas.each do |cuentaUsuario|
+      saldoTotal = saldoTotal + cuentaUsuario.saldo
+    end
+    return saldoTotal 
+
+luego recorremos los elementos que contiene @cuentas que son todos de la clase CuentaBancaria. por lo cual accedemos 
+al atributo saldo, el cual se suma a la variable saldoTotal. 
+
+---EL METODO agregar_cuenta
+
+Este método, como dije antes, se agregó para poder agregar cuentas y probar el metodo sumar Saldos. Por lo mismo, solo permite agregar
+cuentas de la clase CuentaBancaria. una a la vez.
+
+lo primero que hace es validad si la cuenta existe. En caso de que no exista la pushea a la variable de instancia @cuentas. en caso de existir
+envia un mesnaje que la cuenta ya existe.
+
+def agregar_cuenta(cuenta3)
+    cuentaExiste = false
+    raise ArgumentError,'El atributo cuenta debe ser de la clase CuentaBancaria' if cuenta3.class != CuentaBancaria # valida si contiene algun carácter que no sea un número
+    @cuentas.include?(cuenta3) ? cuentaExiste = true : cuentaExiste = false
+    if cuentaExiste == true
+      return "La cuenta ya existe"
+    else
+      @cuentas.push(cuenta3)
+      return "La cuenta fue agregada con exito"
+    end
+  end 
+
+
+---LA CAJA NEGRA DE LAS CLASES Carta y Baraja---
+
+Primero se cren las clases.
+
+class Carta
+end
+
+class Baraja
+end
+
+luego se habilitan los metodos attr
+
+class Carta
+    attr_reader :numero, :pinta    #modo lectura
+    attr_writer :numero, :pinta    #modo escritura
+end
+
+---EL METODO CONSTRUCTOR DE LA CLASE Carta---
+ básicamente valida las excepciones y asigna las variables de instancia.
+def initialize(numero, pinta)
+    pintas = ["C", "D", "E", "T"]
+    raise RangeError, 'El numero debe estar entre el rango 1 y 13' if numero < 1 || numero > 13
+    raise ArgumentError, 'el Argumento numero no es valido, debe ser integer' if numero.class != Integer
+    raise ArgumentError, 'el argumento pinta debe ser solo una letra'  if pinta.length != 1
+    raise ArgumentError, 'Argumento no valido C=Corazón D=Diamante E=Espada T=Trebol'  if pintas.include?(pinta.upcase) == false
+    @numero = numero
+    @pinta = pinta.upcase
+  end
+
+  La clase Carta contiene un metodo que cambia la letra que representa a la pinta por el nombre largo de la pinta.
+  
+  def nombreCarta
+    return "Corazón" if @pinta == "C"
+    return "Diamante" if @pinta == "D"
+    return "Espada" if @pinta == "E"
+    return "Trebol" if @pinta == "T"
+  end
+
+  En esta clase no hay mucho que decir. 
+
+
+  ---LA CAJA NEGRA DE LA CLASE Baraja---
+
+  La Clase Baraja habilita los métodos attr_reader y attr_writer, contiene además el metodo constructor, el metodo repartirMano
+  el método sacar y adicionalmente el metodo ordenar.
+
+  ---EL METODO CONSTRUCTOR---
+
+  Este metodo es algo particular, dado que al momento de crear la baraja, instancia la clase Carta, con todas las posibilidades 
+  de combinación de numero y pinta. Para lograr esto se utiliza un arreglo con las pintas posibles, el cual se recorre con el
+  metodo each, además se utiliza un ciclo for en el cual se agregan los numeros del 1 al 13 en la medida que se incrementa el iterador.
+  Al finalizar el metodo constructor queda creada la baraja con 52 cartas. 
+  Para el almacenar el numero total de cartas se utiliza la variable de instancia @totalCartas. 
+  
+  def initialize(cartas=[],manoObj=[])
+    arrayPinta = ["C", "D", "E", "T"]
+    @totalCartas = 0 #contador de cartas
+    arrayPinta.each do |pinta|
+    @cartas = cartas
+    @manoObj = manoObj
+      for idx in (1..(13))
+        @cartas.push(Carta.new(idx, pinta))
+        @totalCartas += 1
+        # print "#{@cartas}"
+      end
+    end 
+  end
+
+---EL METODO BARAJAR---
+Este es un metodo muy pequeño que utiliza el metodo de array shuffle para reorganizar el contenido de la variable de
+instancia @cartas, la cual como sabemos es un arreglo que contiene todas instancias de la clase Carta instanciadas
+por el metodo constructor. 
+    
+    @cartas.shuffle!
+
+
+---EL METODO repartir_Mano---
+
+Siguiendo la linea de utlizar metodos de la clase Array, para resolver los requerimeintos, para repartir una mano 
+se utiliza el metodo shift, el cual extrae el primer elemento de un arreglo. a pesar de que en la descripción del desafío se sugiere
+la utilización pop, esta opción se descarta, dado que revisando la documentación esta indica que pop sirve para extraer
+el ultimo elemento de un arreglo. 
+
+    @manoObj.push(@cartas.shift)
+
+    esta linea extrae el primer elemento de la variable de clase Array y lo asigna a un arreglo de objetos que contrendrá
+    las 5 cartas repartidas.
+
+En la medida que va asignando las cartas. se va actualizando la variable totalCartas, la cual almacena la cantidad de cartas
+que quedan en la baraja. Es decir, si reparte 5 cartas le resta 5 a totalCartas
+
+llevar el conteo de las cartas que quedan en la baraja, permite saber si se puede seguir repartiendo cartas o si ya se acabaron.
+
+---EL METODO sacar---
+
+al igual que metodo anterior utiliza el metodo de Array shift para extraer la primera carta y actualiza
+la variable totalCartas.
+
+---EL METODO ordenar---
+
+Finalmente, se crea este metodo para poder volver a utilizar la baraja. Para ello, llama al metodo initialize.
+
+
+
