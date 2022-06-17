@@ -485,9 +485,22 @@ llevar el conteo de las cartas que quedan en la baraja, permite saber si se pued
 al igual que metodo anterior utiliza el metodo de Array shift para extraer la primera carta y actualiza
 la variable totalCartas.
 
+    def sacar
+        if @totalCartas >= 1
+            @totalCartas -= 1
+            @cartas.shift
+        else 
+            puts "No quedan cartas en el mazo"
+        end
+    end
+
+
 ---EL METODO ordenar---
 
 Finalmente, se crea este metodo para poder volver a utilizar la baraja. Para ello, llama al metodo initialize.
 
-
+    def ordenar 
+        initialize()
+        return "baraja ordenada"
+    end
 

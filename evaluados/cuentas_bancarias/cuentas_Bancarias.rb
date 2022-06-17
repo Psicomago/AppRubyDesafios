@@ -11,6 +11,3 @@ require_relative 'usuario.rb'
 require_relative 'tester_cuentas.rb'
 require 'byebug'
 
-
-# return 'Saldo insuficiente' if @cuenta < monto
-#         return @cuenta = @cuenta - monto if @cuenta >= monto
